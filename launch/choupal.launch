@@ -1,9 +1,12 @@
+<?xml version="1.0"?>
+
 <launch>
 
 	<arg name="file_path" default="$(find fruc_dataset_choupal_launch)/rosbag"/>
-	<arg name="enable_localization" default="false"/>
-	<arg name="localization_file" default="localization.bag"/>
-	
+	<!-- Empty strings will not initialize localization bag -->
+	<arg name="localization_file" default=""/>
+	<arg name="rviz" default="false"/>
+
 
 	<arg name="model" default="$(find fruc_dataset_choupal_launch)/urdf/sensor_box.urdf"/>
 	<arg name="rate_factor"  default="1"/>
@@ -38,7 +41,6 @@
 	  args="compressed in:=mynteye/right_rect/image_rect
 	  		raw out:=mynteye/right_rect/image_rect"/> 
 
-
 	<!-- Generate Realsense's Point Cloud from Depth-->
 	<node pkg="nodelet" type="nodelet" name="nodelet_manager" args="manager" />
   	<node pkg="nodelet" type="nodelet" name="realsense_depth2cloud"
@@ -51,26 +53,27 @@
   	</node>
 	
 	<!-- Generate Mynteye's Point Cloud from Depth-->
+	<node pkg="nodelet" type="nodelet" name="nodelet_minteye" args="manager" />
 	<node pkg="nodelet" type="nodelet" name="mynt_depth2cloud"
-  	      args="load depth_image_proc/point_cloud_xyz nodelet_manager">
+  	      args="load depth_image_proc/point_cloud_xyz nodelet_minteye">
   	  <remap from="camera_info" to="/mynteye/depth/camera_info"/>
   	  <remap from="image_rect" to="/mynteye/depth/image_raw"/>
   	  <remap from="points" to="/mynteye/depth/points"/>
   	</node>
 
 	<!-- Start rosbags -->
-	<node unless="$(arg enable_localization)" pkg="rosbag" type="play" name="play_bags" output="screen" 
+	<node unless="$(eval arg('localization_file')!='')" pkg="rosbag" type="play" name="play_bags" output="screen" 
 	args="--clock --pause --skip-empty=10.0 -r $(arg rate_factor)
 	$(arg file_path)/choupal_0.bag
 	$(arg file_path)/choupal_1.bag
 	$(arg file_path)/choupal_2.bag
 	"/>
-	<node if="$(arg enable_localization)" pkg="rosbag" type="play" name="play_bags" output="screen" 
-	args="--clock --pause --skip-empty=10.0 -r $(arg rate_factor)
+	<node if="$(eval arg('localization_file')!='')" pkg="rosbag" type="play" name="play_bags" output="screen" 
+	args="--clock -s 30 --pause --skip-empty=10.0 -r $(arg rate_factor)
+	$(arg file_path)/$(arg localization_file)
 	$(arg file_path)/choupal_0.bag
 	$(arg file_path)/choupal_1.bag
 	$(arg file_path)/choupal_2.bag
-	$(arg file_path)/$(arg localization_file)
 	"/>
 
 	<param name="robot_description" textfile="$(arg model)" />
@@ -78,5 +81,15 @@
             <remap from="joint_state" to="joint_state"/>
             <param name="publish_frequency" type="double" value="15.0"/>
     </node>
+
+	<node if="$(arg rviz)" pkg="rviz" 
+		  type="rviz" 
+		  name="rviz" 
+		  args="-d $(find fruc_dataset_choupal_launch)/rviz/choupal.rviz"/>
+
+    <!-- For rviz visualization -->
+    <node name="odom_to_tf" pkg="message_to_tf" type="message_to_tf" args="/localization"/>
+    <node pkg="tf" type="static_transform_publisher" name="base2view" args="0 0 0 0 0 0 world map 1"/>
+
 
 </launch>
