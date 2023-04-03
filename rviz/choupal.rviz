@@ -1,0 +1,520 @@
+Panels:
+  - Class: rviz/Displays
+    Help Height: 70
+    Name: Displays
+    Property Tree Widget:
+      Expanded:
+        - /Global Options1
+      Splitter Ratio: 0.5
+    Tree Height: 338
+  - Class: rviz/Time
+    Name: Time
+    SyncMode: 0
+    SyncSource: RS PCL
+  - Class: rviz/Views
+    Expanded:
+      - /Current View1
+      - /Current View1/Focal Point1
+    Name: Views
+    Splitter Ratio: 0.5
+Preferences:
+  PromptSaveOnExit: true
+Toolbars:
+  toolButtonStyle: 2
+Visualization Manager:
+  Class: ""
+  Displays:
+    - Class: rviz/TF
+      Enabled: true
+      Frame Timeout: 15
+      Frames:
+        All Enabled: true
+        base_footprint:
+          Value: true
+        base_link:
+          Value: true
+        base_sensor_box:
+          Value: true
+        base_stabilized:
+          Value: true
+        livox_frame:
+          Value: true
+        map:
+          Value: true
+        mynteye_bottom_screw_frame:
+          Value: true
+        mynteye_depth_frame:
+          Value: true
+        mynteye_left_frame:
+          Value: true
+        mynteye_left_rect_frame:
+          Value: true
+        mynteye_link:
+          Value: true
+        mynteye_right_frame:
+          Value: true
+        mynteye_right_rect_frame:
+          Value: true
+        realsense_accel_frame:
+          Value: true
+        realsense_accel_optical_frame:
+          Value: true
+        realsense_bottom_screw_frame:
+          Value: true
+        realsense_color_frame:
+          Value: true
+        realsense_color_optical_frame:
+          Value: true
+        realsense_depth_frame:
+          Value: true
+        realsense_depth_optical_frame:
+          Value: true
+        realsense_gyro_frame:
+          Value: true
+        realsense_gyro_optical_frame:
+          Value: true
+        realsense_link:
+          Value: true
+        smartphone_frame:
+          Value: true
+        world:
+          Value: true
+        xsens_base:
+          Value: true
+        xsens_frame:
+          Value: true
+      Marker Alpha: 1
+      Marker Scale: 1
+      Name: TF
+      Show Arrows: true
+      Show Axes: true
+      Show Names: true
+      Tree:
+        world:
+          map:
+            base_footprint:
+              base_stabilized:
+                base_link:
+                  base_sensor_box:
+                    livox_frame:
+                      {}
+                    mynteye_bottom_screw_frame:
+                      mynteye_link:
+                        mynteye_left_frame:
+                          mynteye_depth_frame:
+                            {}
+                          mynteye_left_rect_frame:
+                            {}
+                        mynteye_right_frame:
+                          mynteye_right_rect_frame:
+                            {}
+                    realsense_bottom_screw_frame:
+                      realsense_link:
+                        realsense_accel_frame:
+                          realsense_accel_optical_frame:
+                            {}
+                        realsense_color_frame:
+                          realsense_color_optical_frame:
+                            {}
+                        realsense_depth_frame:
+                          realsense_depth_optical_frame:
+                            {}
+                        realsense_gyro_frame:
+                          realsense_gyro_optical_frame:
+                            {}
+                    xsens_base:
+                      xsens_frame:
+                        {}
+                  smartphone_frame:
+                    {}
+      Update Interval: 0
+      Value: true
+    - Alpha: 1
+      Autocompute Intensity Bounds: true
+      Autocompute Value Bounds:
+        Max Value: 10
+        Min Value: -10
+        Value: true
+      Axis: Z
+      Channel Name: intensity
+      Class: rviz/PointCloud2
+      Color: 255; 255; 255
+      Color Transformer: Intensity
+      Decay Time: 1
+      Enabled: true
+      Invert Rainbow: false
+      Max Color: 255; 255; 255
+      Min Color: 0; 0; 0
+      Name: Livox
+      Position Transformer: XYZ
+      Queue Size: 10
+      Selectable: true
+      Size (Pixels): 3
+      Size (m): 0.009999999776482582
+      Style: Flat Squares
+      Topic: /livox/lidar
+      Unreliable: false
+      Use Fixed Frame: true
+      Use rainbow: true
+      Value: true
+    - Class: rviz/Group
+      Displays:
+        - Class: rviz/Image
+          Enabled: false
+          Image Topic: /realsense/aligned_depth_to_color/image_raw
+          Max Value: 1
+          Median window: 5
+          Min Value: 0
+          Name: RS Depth
+          Normalize Range: true
+          Queue Size: 2
+          Transport Hint: raw
+          Unreliable: false
+          Value: false
+        - Class: rviz/Image
+          Enabled: true
+          Image Topic: /realsense/color/image_raw
+          Max Value: 1
+          Median window: 5
+          Min Value: 0
+          Name: RS Color
+          Normalize Range: true
+          Queue Size: 2
+          Transport Hint: raw
+          Unreliable: false
+          Value: true
+        - Alpha: 1
+          Autocompute Intensity Bounds: true
+          Autocompute Value Bounds:
+            Max Value: 10
+            Min Value: -10
+            Value: true
+          Axis: Z
+          Channel Name: intensity
+          Class: rviz/PointCloud2
+          Color: 255; 255; 255
+          Color Transformer: RGB8
+          Decay Time: 0
+          Enabled: true
+          Invert Rainbow: false
+          Max Color: 255; 255; 255
+          Min Color: 0; 0; 0
+          Name: RS PCL
+          Position Transformer: XYZ
+          Queue Size: 10
+          Selectable: true
+          Size (Pixels): 3
+          Size (m): 0.009999999776482582
+          Style: Flat Squares
+          Topic: /realsense/depth/points
+          Unreliable: false
+          Use Fixed Frame: true
+          Use rainbow: true
+          Value: true
+        - Class: rviz/Image
+          Enabled: false
+          Image Topic: /realsense/infra1/image_rect_raw
+          Max Value: 1
+          Median window: 5
+          Min Value: 0
+          Name: RS Left IR
+          Normalize Range: true
+          Queue Size: 2
+          Transport Hint: compressed
+          Unreliable: false
+          Value: false
+      Enabled: true
+      Name: RealSense
+    - Class: rviz/Group
+      Displays:
+        - Alpha: 1
+          Autocompute Intensity Bounds: true
+          Autocompute Value Bounds:
+            Max Value: 10
+            Min Value: -10
+            Value: true
+          Axis: Z
+          Channel Name: intensity
+          Class: rviz/PointCloud2
+          Color: 255; 255; 255
+          Color Transformer: Intensity
+          Decay Time: 0
+          Enabled: true
+          Invert Rainbow: false
+          Max Color: 255; 255; 255
+          Min Color: 0; 0; 0
+          Name: MT PCL
+          Position Transformer: XYZ
+          Queue Size: 10
+          Selectable: true
+          Size (Pixels): 3
+          Size (m): 0.009999999776482582
+          Style: Flat Squares
+          Topic: /mynteye/depth/points
+          Unreliable: false
+          Use Fixed Frame: true
+          Use rainbow: true
+          Value: true
+        - Class: rviz/Image
+          Enabled: true
+          Image Topic: /mynteye/left_rect/image_rect
+          Max Value: 1
+          Median window: 5
+          Min Value: 0
+          Name: MT Left IR
+          Normalize Range: true
+          Queue Size: 2
+          Transport Hint: raw
+          Unreliable: false
+          Value: true
+        - Class: rviz/Image
+          Enabled: false
+          Image Topic: /mynteye/right_rect/image_rect
+          Max Value: 1
+          Median window: 5
+          Min Value: 0
+          Name: MT Right IR
+          Normalize Range: true
+          Queue Size: 2
+          Transport Hint: raw
+          Unreliable: false
+          Value: false
+        - Class: rviz/Image
+          Enabled: false
+          Image Topic: /mynteye/depth/image_raw
+          Max Value: 1
+          Median window: 5
+          Min Value: 0
+          Name: MT Depth
+          Normalize Range: true
+          Queue Size: 2
+          Transport Hint: raw
+          Unreliable: false
+          Value: false
+      Enabled: true
+      Name: MintEye
+    - Angle Tolerance: 0.10000000149011612
+      Class: rviz/Odometry
+      Covariance:
+        Orientation:
+          Alpha: 0.5
+          Color: 255; 255; 127
+          Color Style: Unique
+          Frame: Local
+          Offset: 1
+          Scale: 1
+          Value: true
+        Position:
+          Alpha: 0.30000001192092896
+          Color: 204; 51; 204
+          Scale: 1
+          Value: true
+        Value: true
+      Enabled: true
+      Keep: 10000
+      Name: Odometry
+      Position Tolerance: 0.10000000149011612
+      Queue Size: 10
+      Shape:
+        Alpha: 1
+        Axes Length: 1
+        Axes Radius: 0.10000000149011612
+        Color: 255; 25; 0
+        Head Length: 0.30000001192092896
+        Head Radius: 0.10000000149011612
+        Shaft Length: 1
+        Shaft Radius: 0.05000000074505806
+        Value: Arrow
+      Topic: /localization
+      Unreliable: false
+      Value: true
+    - Alpha: 1
+      Class: rviz/RobotModel
+      Collision Enabled: false
+      Enabled: true
+      Links:
+        All Links Enabled: true
+        Expand Joint Details: false
+        Expand Link Details: false
+        Expand Tree: false
+        Link Tree Style: Links in Alphabetic Order
+        base_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        base_sensor_box:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        livox_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        mynteye_bottom_screw_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        mynteye_depth_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        mynteye_left_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        mynteye_left_rect_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        mynteye_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        mynteye_right_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        mynteye_right_rect_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        realsense_accel_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        realsense_accel_optical_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        realsense_bottom_screw_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        realsense_color_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        realsense_color_optical_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        realsense_depth_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        realsense_depth_optical_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        realsense_gyro_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        realsense_gyro_optical_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        realsense_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        smartphone_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        xsens_base:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        xsens_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+      Name: RobotModel
+      Robot Description: robot_description
+      TF Prefix: ""
+      Update Interval: 0
+      Value: true
+      Visual Enabled: true
+  Enabled: true
+  Global Options:
+    Background Color: 48; 48; 48
+    Default Light: true
+    Fixed Frame: world
+    Frame Rate: 30
+  Name: root
+  Tools:
+    - Class: rviz/Interact
+      Hide Inactive Objects: true
+    - Class: rviz/MoveCamera
+  Value: true
+  Views:
+    Current:
+      Class: rviz/ThirdPersonFollower
+      Distance: 11.43183708190918
+      Enable Stereo Rendering:
+        Stereo Eye Separation: 0.05999999865889549
+        Stereo Focal Distance: 1
+        Swap Stereo Eyes: false
+        Value: false
+      Field of View: 0.7853981852531433
+      Focal Point:
+        X: 0
+        Y: 0
+        Z: 0
+      Focal Shape Fixed Size: false
+      Focal Shape Size: 0.05000000074505806
+      Invert Z Axis: false
+      Name: Current View
+      Near Clip Distance: 0.009999999776482582
+      Pitch: 0.7203974723815918
+      Target Frame: base_link
+      Yaw: 3.172220230102539
+    Saved:
+      - Class: rviz/ThirdPersonFollower
+        Distance: 24.759632110595703
+        Enable Stereo Rendering:
+          Stereo Eye Separation: 0.05999999865889549
+          Stereo Focal Distance: 1
+          Swap Stereo Eyes: false
+          Value: false
+        Field of View: 0.7853981852531433
+        Focal Point:
+          X: 0
+          Y: 0
+          Z: 0
+        Focal Shape Fixed Size: false
+        Focal Shape Size: 0.05000000074505806
+        Invert Z Axis: false
+        Name: ThirdPersonFollower
+        Near Clip Distance: 0.009999999776482582
+        Pitch: 0.8103981614112854
+        Target Frame: base_link
+        Yaw: 3.18540096282959
+Window Geometry:
+  Displays:
+    collapsed: false
+  Height: 1013
+  Hide Left Dock: false
+  Hide Right Dock: false
+  MT Depth:
+    collapsed: false
+  MT Left IR:
+    collapsed: false
+  MT Right IR:
+    collapsed: false
+  QMainWindow State: 000000ff00000000fd0000000300000000000002e900000389fc0200000008fb000000100044006900730070006c0061007900730000000014000001d3000000c700fffffffb0000000a0049006d00610067006500000001be000000750000000000000000fb00000014004d00540020004c0065006600740020004900520100000014000001b50000001600fffffffb00000016004d005400200052006900670068007400200049005200000002b5000000e80000001600fffffffb00000010004d005400200044006500700074006800000002d6000000c70000001600fffffffb000000100052005300200044006500700074006800000002d8000000c50000001600fffffffb000000100052005300200043006f006c006f007201000001cf000001ce0000001600fffffffb00000014005200530020004c00650066007400200049005200000002d6000000c70000001600ffffff000000010000013b00000362fc0200000001fb0000000a00560069006500770073000000003b00000362000000a000ffffff000000030000069000000037fc0100000001fb0000000800540069006d00650100000000000006900000030700ffffff000003a10000038900000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730000000000ffffffff0000000000000000
+  RS Color:
+    collapsed: false
+  RS Depth:
+    collapsed: false
+  RS Left IR:
+    collapsed: false
+  Time:
+    collapsed: false
+  Views:
+    collapsed: false
+  Width: 1680
+  X: 1920
+  Y: 30
