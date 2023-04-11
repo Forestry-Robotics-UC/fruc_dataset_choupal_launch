@@ -31,8 +31,8 @@ Description of files:
 - The sensor_box.urdf contains all the required transforms;
 - The sensor_box.stl contains the 3D model of the apparatus;
 - The choupal.launch publishes the sensor transforms and plays the dataset;
-- The localization.bag contains the final graph of poses extracted with RTAB-Map republished as nav_msgs/odom. These poses are more accurate than the localization_with discrete_jumps.bag but are recorded at a lower frequency;
-- The localization_with discrete_jumps.bag contains a map-referenced localization extracted with RTAB-Map, containing more entries than localization.bag but it contains discrete jumps (not ideal for pure mapping libraries).
+- The **localization.bag** contains the final graph of poses extracted with RTAB-Map republished as nav_msgs/odom at 5Hz.
+- The **localization_[x]Hz.bag** contains the final graph of poses extracted with RTAB-Map at a higher frequency, but the poses are interpolated. If you don't require a high frame rate, please use the localization.bag instead.
 
 Usage:
 
