@@ -2,7 +2,7 @@
 
 <launch>
 
-	<arg name="file_path" default="$(find fruc_dataset_choupal_launch)/rosbag"/>
+	<arg name="file_path" default="/storage/rosbags/choupal/session5"/>
 	<!-- Empty strings will not initialize localization bag -->
 	<arg name="localization_file" default=""/>
 	<arg name="rviz" default="false"/>
@@ -21,25 +21,25 @@
 		  type="republish" 
 		  name="realsense_rgb" 
 		  args="compressed in:=/realsense/color/image_raw
-		  		raw out:=/realsense/color/image_raw"/> 
+		  		raw out:=/realsense/color/image_raw"/>
 	
-    <node pkg="image_transport" 
+   <node pkg="image_transport" 
 		  type="republish" 
 		  name="realsense_depth" 
 		  args="compressedDepth in:=/realsense/aligned_depth_to_color/image_raw
-		        raw out:=/realsense/aligned_depth_to_color/image_raw"/>
+		        raw out:=/realsense/aligned_depth_to_color/image_raw"/>-
 
 	<node pkg="image_transport" 
 	  type="republish" 
 	  name="mynteye_left" 
-	  args="compressed in:=mynteye/left_rect/image_rect
-	  		raw out:=mynteye/left_rect/image_rect"/> 
+	  args="compressed in:=mynteye/left/image_raw
+	  		raw out:=mynteye/left/image_raw"/> 
 	
 	<node pkg="image_transport" 
 	  type="republish" 
 	  name="mynteye_right" 
-	  args="compressed in:=mynteye/right_rect/image_rect
-	  		raw out:=mynteye/right_rect/image_rect"/> 
+	  args="compressed in:=mynteye/right/image_raw
+	  		raw out:=mynteye/right/image_raw"/> 
 
 	<!-- Generate Realsense's Point Cloud from Depth-->
 	<node pkg="nodelet" type="nodelet" name="nodelet_manager" args="manager" />
@@ -52,28 +52,30 @@
   	  <remap from="depth_registered/points" to="/realsense/depth/points"/>
   	</node>
 	
-	<!-- Generate Mynteye's Point Cloud from Depth-->
+	<!-- Generate Mynteye's Point Cloud from Depth
 	<node pkg="nodelet" type="nodelet" name="nodelet_minteye" args="manager" />
 	<node pkg="nodelet" type="nodelet" name="mynt_depth2cloud"
-  	      args="load depth_image_proc/point_cloud_xyz nodelet_minteye">
+  	      args="load stereo_image_proc/point_cloud_xyz nodelet_minteye">
   	  <remap from="camera_info" to="/mynteye/depth/camera_info"/>
   	  <remap from="image_rect" to="/mynteye/depth/image_raw"/>
   	  <remap from="points" to="/mynteye/depth/points"/>
-  	</node>
+  	</node>-->
+
+	<node pkg="stereo_image_proc" type="stereo_image_proc" name="mynt_stereo" ns="mynteye">
+  	  <remap from="left/image_raw" to="/mynteye/left/image_raw"/>
+	  <remap from="left/camera_info" to="/mynteye/left/camera_info"/>
+  	  <remap from="right/image_raw" to="/mynteye/right/image_raw"/>
+	  <remap from="right/camera_info" to="/mynteye/right/camera_info"/>
+	</node>
 
 	<!-- Start rosbags -->
 	<node unless="$(eval arg('localization_file')!='')" pkg="rosbag" type="play" name="play_bags" output="screen" 
-	args="--clock --pause --skip-empty=10.0 -r $(arg rate_factor)
-	$(arg file_path)/choupal_0.bag
-	$(arg file_path)/choupal_1.bag
-	$(arg file_path)/choupal_2.bag
+	args="--clock --pause -s 70 --skip-empty=10.0 -r $(arg rate_factor)
+	$(arg file_path)/choupal_fixed.bag
 	"/>
 	<node if="$(eval arg('localization_file')!='')" pkg="rosbag" type="play" name="play_bags" output="screen" 
-	args="--clock -s 30 --pause --skip-empty=10.0 -r $(arg rate_factor)
-	$(arg file_path)/$(arg localization_file)
-	$(arg file_path)/choupal_0.bag
-	$(arg file_path)/choupal_1.bag
-	$(arg file_path)/choupal_2.bag
+	args="--clock -s 70 --pause --skip-empty=10.0 -r $(arg rate_factor)
+	$(arg file_path)/choupal_fixed.bag
 	"/>
 
 	<param name="robot_description" textfile="$(arg model)" />
