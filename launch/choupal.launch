@@ -2,96 +2,115 @@
 
 <launch>
 
-	<arg name="file_path" default="/storage/rosbags/choupal/session5"/>
+	<arg name="file_path" default="$(find fruc_dataset_choupal_launch)/rosbags/" />
 	<!-- Empty strings will not initialize localization bag -->
-	<arg name="localization_file" default=""/>
-	<arg name="rviz" default="false"/>
+	<arg name="localization_file" 
+		default="" />
+
+	<arg name="publish_tf" 
+		default="false"/>
+	<arg name="rviz" 
+		default="false" />
 
 
-	<arg name="model" default="$(find fruc_dataset_choupal_launch)/urdf/sensor_box.urdf"/>
-	<arg name="rate_factor"  default="1"/>
+	<arg name="model"
+		default="$(find fruc_dataset_choupal_launch)/urdf/sensor_box.urdf" />
+	<arg name="rate_factor"
+		default="1" />
 
 
 	<!-- Start sim time for rosbags -->
-	<param name="use_sim_time" value="true"/>
+	<param name="use_sim_time" value="true" />
 
-    
+
 	<!--Image transports-->
-    <node pkg="image_transport" 
-		  type="republish" 
-		  name="realsense_rgb" 
-		  args="compressed in:=/realsense/color/image_raw
-		  		raw out:=/realsense/color/image_raw"/>
+    <node pkg="image_transport"
+		type="republish"
+		name="realsense_rgb"
+		args="compressed in:=/realsense/color/image_raw
+		  		raw out:=/realsense/color/image_raw" />
 	
-   <node pkg="image_transport" 
-		  type="republish" 
-		  name="realsense_depth" 
-		  args="compressedDepth in:=/realsense/aligned_depth_to_color/image_raw
-		        raw out:=/realsense/aligned_depth_to_color/image_raw"/>-
+   <node
+		pkg="image_transport"
+		type="republish"
+		name="realsense_depth"
+		args="compressedDepth in:=/realsense/aligned_depth_to_color/image_raw
+		        raw out:=/realsense/aligned_depth_to_color/image_raw" />
 
-	<node pkg="image_transport" 
-	  type="republish" 
-	  name="mynteye_left" 
-	  args="compressed in:=mynteye/left/image_raw
-	  		raw out:=mynteye/left/image_raw"/> 
+	<node pkg="image_transport"
+		type="republish"
+		name="mynteye_left"
+		args="compressed in:=mynteye/left/image_raw
+	  		raw out:=mynteye/left/image_raw" /> 
 	
-	<node pkg="image_transport" 
-	  type="republish" 
-	  name="mynteye_right" 
-	  args="compressed in:=mynteye/right/image_raw
-	  		raw out:=mynteye/right/image_raw"/> 
+	<node
+		pkg="image_transport"
+		type="republish"
+		name="mynteye_right"
+		args="compressed in:=mynteye/right/image_raw
+	  		raw out:=mynteye/right/image_raw" />
 
 	<!-- Generate Realsense's Point Cloud from Depth-->
-	<node pkg="nodelet" type="nodelet" name="nodelet_manager" args="manager" />
-  	<node pkg="nodelet" type="nodelet" name="realsense_depth2cloud"
-  	      args="load depth_image_proc/point_cloud_xyzrgb nodelet_manager">
-  	  <remap from="rgb/camera_info" to="/realsense/color/camera_info"/>
-  	  <remap from="rgb/image_rect_color" to="/realsense/color/image_raw"/>
+	<node
+		pkg="nodelet" type="nodelet" name="nodelet_manager" args="manager" />
+  	<node pkg="nodelet"
+		type="nodelet" name="realsense_depth2cloud"
+		args="load depth_image_proc/point_cloud_xyzrgb nodelet_manager">
+		<remap from="rgb/camera_info" to="/realsense/color/camera_info" />
+		<remap from="rgb/image_rect_color" to="/realsense/color/image_raw" />
 
-	  <remap from="depth_registered/image_rect" to="/realsense/aligned_depth_to_color/image_raw"/>
-  	  <remap from="depth_registered/points" to="/realsense/depth/points"/>
-  	</node>
-	
-	<!-- Generate Mynteye's Point Cloud from Depth
-	<node pkg="nodelet" type="nodelet" name="nodelet_minteye" args="manager" />
-	<node pkg="nodelet" type="nodelet" name="mynt_depth2cloud"
-  	      args="load stereo_image_proc/point_cloud_xyz nodelet_minteye">
-  	  <remap from="camera_info" to="/mynteye/depth/camera_info"/>
-  	  <remap from="image_rect" to="/mynteye/depth/image_raw"/>
-  	  <remap from="points" to="/mynteye/depth/points"/>
-  	</node>-->
+		<remap from="depth_registered/image_rect" to="/realsense/aligned_depth_to_color/image_raw" />
+		<remap from="depth_registered/points" to="/realsense/depth/points" />
+	</node>
 
-	<node pkg="stereo_image_proc" type="stereo_image_proc" name="mynt_stereo" ns="mynteye">
-  	  <remap from="left/image_raw" to="/mynteye/left/image_raw"/>
-	  <remap from="left/camera_info" to="/mynteye/left/camera_info"/>
-  	  <remap from="right/image_raw" to="/mynteye/right/image_raw"/>
-	  <remap from="right/camera_info" to="/mynteye/right/camera_info"/>
+	<!-- Generate Mynt Eye's Point Cloud from Depth-->
+	<node
+		pkg="stereo_image_proc" type="stereo_image_proc" name="mynt_stereo" ns="mynteye">
+		<remap from="left/image_raw" to="/mynteye/left/image_raw" />
+		<remap from="left/camera_info" to="/mynteye/left/camera_info" />
+		<remap from="right/image_raw" to="/mynteye/right/image_raw" />
+		<remap from="right/camera_info" to="/mynteye/right/camera_info" />
 	</node>
 
 	<!-- Start rosbags -->
-	<node unless="$(eval arg('localization_file')!='')" pkg="rosbag" type="play" name="play_bags" output="screen" 
-	args="--clock --pause -s 70 --skip-empty=10.0 -r $(arg rate_factor)
-	$(arg file_path)/choupal_fixed.bag
-	"/>
-	<node if="$(eval arg('localization_file')!='')" pkg="rosbag" type="play" name="play_bags" output="screen" 
-	args="--clock -s 70 --pause --skip-empty=10.0 -r $(arg rate_factor)
-	$(arg file_path)/choupal_fixed.bag
-	"/>
+	<node
+		unless="$(eval arg('localization_file')!='')" pkg="rosbag" type="play" name="play_bags"
+		output="screen"
+		args="--clock --pause -s 70 --skip-empty=10.0 -r $(arg rate_factor)
+	$(arg file_path)/choupal.bag
+	" />
+	<node
+		if="$(eval arg('localization_file')!='')" pkg="rosbag" type="play" name="play_bags"
+		output="screen"
+		args="--clock -s 70 --pause --skip-empty=10.0 -r $(arg rate_factor)
+	$(arg file_path)/choupal.bag
+	$(arg file_path)/$(arg localization_file)
+	" />
 
-	<param name="robot_description" textfile="$(arg model)" />
-	<node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" output="screen">
-            <remap from="joint_state" to="joint_state"/>
-            <param name="publish_frequency" type="double" value="15.0"/>
-    </node>
+	<param
+		name="robot_description" textfile="$(arg model)" />
+	<node pkg="robot_state_publisher"
+		type="robot_state_publisher" name="robot_state_publisher" output="screen">
+		<remap from="joint_state" to="joint_state" />
+		<param name="publish_frequency" type="double" value="15.0" />
+	</node>
 
-	<node if="$(arg rviz)" pkg="rviz" 
-		  type="rviz" 
-		  name="rviz" 
-		  args="-d $(find fruc_dataset_choupal_launch)/rviz/choupal.rviz"/>
+	<!-- Convert the odometry messages to TF -->
+	<node if="$(arg publish_tf) "name="odom_to_tf"
+			pkg="fruc_dataset_choupal_launch" type="subscribe_odom_publish_tf">
+    <remap from="odom" to="/localization"/>
+  </node>
 
-    <!-- For rviz visualization -->
-    <node name="odom_to_tf" pkg="message_to_tf" type="message_to_tf" args="/localization"/>
-    <node pkg="tf" type="static_transform_publisher" name="base2view" args="0 0 0 0 0 0 world map 1"/>
 
+
+	<!-- For rviz visualization -->
+	<node if="$(arg rviz)"
+		pkg="rviz"
+		type="rviz"
+		name="rviz"
+		args="-d $(find fruc_dataset_choupal_launch)/rviz/choupal.rviz" />
+  
+    <node pkg="tf"
+		type="static_transform_publisher" name="base2view" args="0 0 0 0 0 0 world map 1" />
 
 </launch>
