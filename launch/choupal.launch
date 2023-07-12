@@ -2,7 +2,7 @@
 
 <launch>
 
-	<arg name="file_path" default="$(find fruc_dataset_choupal_launch)/rosbags/" />
+	<arg name="file_path" default="$(find fruc_dataset_choupal_launch)/rosbags" />
 	<!-- Empty strings will not initialize localization bag -->
 	<arg name="localization_file" 
 		default="" />
@@ -13,7 +13,7 @@
 		default="false" />
 
 
-	<arg name="model"
+	<arg name="urdf_model"
 		default="$(find fruc_dataset_choupal_launch)/urdf/sensor_box.urdf" />
 	<arg name="rate_factor"
 		default="1" />
