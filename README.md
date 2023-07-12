@@ -1,4 +1,4 @@
-FRUC Datasets (Forest environment dataset)
+# FRUC Datasets (Forest environment dataset)
 
 This dataset was collected as part of the work conducted by the [Forestry Robotics @ University](https://www.youtube.com/@forestryroboticsuc) of Coimbra team
 part of the [Institute of Systems and Robotics](https://www.isr.uc.pt/)
